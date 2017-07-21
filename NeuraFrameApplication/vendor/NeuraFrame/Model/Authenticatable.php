@@ -86,17 +86,29 @@ class Authenticatable extends Model
     * @param string $password 
     * @return bool
     */
-    public static function loginAttempt($username,$password)
+    public static function login($username,$password)
     {
         $app = Application::getInstance();
         $model = $app->modelFactory->model(get_called_class());
-        $realModel = $model->where($model->getAuthUsername().' = "'.$username.'" AND '.$model->getAuthPassword().' = "'.$password.'"')->get();
-        if(isset($realModel))
+        $realModel = $model->where($model->getAuthUsername().' = "'.$username.'"')->first();
+        if(isset($realModel) && $app->password->verify($password,$realModel->password))
         {
             Session::set($model->getAuthSession(),$realModel->id);
             return true;
         }
         return false;
+    }
+
+    /**
+    * Static method for logout model
+    *
+    */
+    public static function logout()
+    {
+        $app = Application::getInstance();
+        $authModel = self::auth();
+        if(!is_null($authModel))
+            Session::remove($authModel->getAuthSession());
     }
 
     /**
@@ -110,8 +122,8 @@ class Authenticatable extends Model
         $app = Application::getInstance();
         $model = $app->modelFactory->model(get_called_class());
         if(!Session::has($model->getAuthSession()))
+            return null;
             //TODO: Returning null is not valid, its violate rules of SOLID principles
-            return new null;
         $callback = get_called_class().'::find';
         if(!is_callable($callback))
             throw new MethodIsNotCallableException([$callback]);

@@ -56,6 +56,13 @@ class Route
     public $expectedArguments = [];
 
     /**
+    * Passed arguments by url
+    *
+    * @var array
+    */
+    public $passedArguments = [];
+
+    /**
     * Constructor
     * 
     * @param string $url

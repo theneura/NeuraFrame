@@ -173,7 +173,7 @@ trait DatabaseQuery
         $results = $query->fetchAll();
         $this->rows = $query->rowCount();
         $this->reset();
-        return $results ? $resoult : null;
+        return $results ? $results : null;
     }
 
     /**
@@ -272,8 +272,14 @@ trait DatabaseQuery
     public function insert($table= null)
     { 
         $this->table($table);
-        $sql = 'INSERT INTO '. $this->table . ' SET ';
-        $sql .= $this->setFields();
+        $sql = 'INSERT INTO '. $this->table;
+        if(!empty($this->data))
+        {
+            $sql .= ' SET ';
+            $sql .= $this->setFields();
+        }else{
+            $sql .= ' VALUES ()';
+        }
         $this->query($sql,$this->bindings);
         $this->lastId = $this->connection()->lastInsertId();
         $this->reset();
@@ -305,7 +311,8 @@ trait DatabaseQuery
     public function update($table= null)
     {
         $this->table($table);
-        $sql = 'UPDATE '. $this->table . ' SET ';     
+        $sql = 'UPDATE '. $this->table;  
+        $sql .= ' SET ';
         $sql .= $this->setFields();
 
         $sql = rtrim($sql,', ');

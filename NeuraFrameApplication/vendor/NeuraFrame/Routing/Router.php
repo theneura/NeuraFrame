@@ -2,6 +2,7 @@
 
 namespace NeuraFrame\Routing;
 
+use NeuraFrame\Session;
 use NeuraFrame\Contracts\Application\ApplicationInterface;
 
 class Router
@@ -19,6 +20,13 @@ class Router
     * @var \NeuraFrame\Routing\RouteCollection
     */
     private $routes;    
+
+    /**
+    * Last called route
+    *
+    * @var \NeuraFrame\Routing\Route
+    */
+    public $lastRoute;
 
     /**
     * Constructor
@@ -41,8 +49,14 @@ class Router
        $route = $this->routes->getProperRoute($this->app->request);
        if($route->hasMiddleware())
            $this->app->middlewareFactory->middleware($route->getMiddleware())->handle($this->app->request);
-        
-       return $this->app->controllerFactory->handleController($route,$this->app->request);     
+
+       $this->lastRoute = $route;
+       return $this->app->controllerFactory->handleController($route,$this->app->request);
+    }
+
+    public function lateUpdate()
+    {
+        Session::set('lastRoute',$this->lastRoute);
     }
 
     /**

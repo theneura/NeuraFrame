@@ -5,6 +5,7 @@ namespace NeuraFrame\Http;
 use NeuraFrame\Exceptions\MissingTokenException;
 use NeuraFrame\Exceptions\InvalidTokenException;
 use NeuraFrame\Session;
+use NeuraFrame\Routing\Route;
 use NeuraFrame\Contracts\Application\ApplicationInterface;
 
 class Request 
@@ -134,7 +135,24 @@ class Request
     {
         filterSpecialCharacters($_POST[$key]);
         return $_POST[$key];
-    }    
+    }   
+
+    /**
+    * Get values from _File by given key
+    *
+    * @param string $key
+    * @param mixed default
+    * @return mixed
+    */ 
+    public function file($key,$default = null)
+    {
+        return $_FILES[$key];
+    }
+
+    public function filesAll()
+    {
+        return $_FILES;
+    }
 
     public function getFullUrlFromBase($url)
     {
@@ -166,6 +184,7 @@ class Request
             }else{
                 if(!Session::checkToken($_POST['token']))
                     throw new InvalidTokenException();
+                unset($_POST['token']);
             }
             
         } 

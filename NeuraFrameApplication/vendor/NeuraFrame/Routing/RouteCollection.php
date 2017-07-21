@@ -76,7 +76,7 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         if($this->routeExists($request->url()))
             return $this->searchForCorrectRoute($request);  
-
+        //TODO:: if route is not exists, need to redirect to home route or back
         throw new RuntimeException("Requested route does not exists as key value in routes array");
     }
 
@@ -102,9 +102,7 @@ class RouteCollection implements Countable, IteratorAggregate
         foreach($this->getRoutes() as $route)
         {            
             if($this->isMatching($route,$request))
-            {
                 return $route;
-            }
         }
         throw new RuntimeException("Current route is not matching with any of the routes in array"); 
     }

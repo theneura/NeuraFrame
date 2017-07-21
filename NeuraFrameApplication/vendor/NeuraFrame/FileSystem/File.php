@@ -3,6 +3,7 @@
 namespace NeuraFrame\FileSystem;
 
 use NeuraFrame\Exceptions\FileNotExistsException;
+use NeuraFrame\Exceptions\FileFailUploadingException;
 use NeuraFrame\Contracts\Application\ApplicationInterface;
 
 
@@ -43,12 +44,12 @@ class File
     /**
     * Determine wether the given file path exists
     *
-    * @param $file 
+    * @param $filePath 
     * @return boo
     */
-    public function exists($file)
+    public function exists($filePath)
     {
-        return file_exists($this->to($file));
+        return file_exists($filePath);
     }
 
     /**
@@ -59,9 +60,47 @@ class File
     */
     public function call($file)
     {
-        if(!file_exists($this->to($file)))
+        if(!$this->exists($this->to($file)))
             throw new FileNotExistsException($this->to($file));
         return require $this->to($file);
+    }
+
+    /**
+    * Creating new file and store it to given location
+    *
+    * @param array $data 
+    * @param string $path 
+    * @throws \NeuraFrame\Exceptions\FileFailUploadingException
+    * @return string
+    */
+    public function createNewFile($data,$path = '')
+    {
+        $fileExtension = $this->extension($data['name']);
+
+        if($data['error'] != 0 && $data['size'] > 2097152)
+            throw new FileFailUploadingException(['error' => $data['error'],'size' => $data['size']]);
+        
+        $fileNewName = uniqid('',true).'.'.$fileExtension;
+        $fileDestination = $this->toUploads($path.$fileNewName);
+
+        if(!move_uploaded_file($data['tmp_name'],$fileDestination))
+           throw new FileFailUploadingException(['error' => $data['error'],'size' => $data['size'],'tmp_name' => $data['tmp_name'],'fileDestination' => $fileDestination]); 
+
+        return 'uploads/'.$path.$fileNewName;
+    }
+
+    /**
+    * Deleting file if exits in uploads folder
+    *
+    * @param string $filePath
+    * @return bool
+    */
+    public function deleteFileIfExists($filePath)
+    {
+        $path = $this->toPublic($filePath);
+        if($this->exists($path))
+            return unlink($path);
+        return false;
     }
 
     /**
@@ -84,6 +123,28 @@ class File
     public function toApp($path)
     {
         return $this->to('App/'.$path);
+    }
+
+    /**
+    * Generate full path to Public directory
+    *
+    * @param string $path 
+    * @return string
+    */
+    public function toPublic($path)
+    {
+        return $this->to('../public/'.$path);
+    }
+
+    /**
+    * Generate full path to Uploads directory
+    *
+    * @param string $path 
+    * @return string
+    */
+    public function toUploads($path)
+    {
+        return $this->to('../public/uploads/'.$path);
     }
 
     /**
@@ -117,6 +178,17 @@ class File
     public function isExtension($fileName,$extension)
     {
         return pathinfo($fileName,PATHINFO_EXTENSION) == $extension ? true :false;
+    }
+
+    /**
+    * Get extension from given file path
+    *
+    * @param string $filePath
+    * @return string
+    */
+    public function extension($filePath)
+    {
+        return pathinfo($filePath,PATHINFO_EXTENSION);
     }
 
     /**

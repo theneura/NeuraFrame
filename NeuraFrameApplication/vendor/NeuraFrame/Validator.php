@@ -110,7 +110,7 @@ class Validator
     private function max($dataKey,$ruleSet,$data = array())
     {
         list($rule,$maxValue) = explode(':',$ruleSet);
-        if(isset($data[$dataKey]) && strlen($data[$dataKey]) > $maxValue)
+        if(isset($data[$dataKey]) && $data[$dataKey] != '' && strlen($data[$dataKey]) > $maxValue)
             $this->appendError($dataKey,' is required to be less than '.$maxValue.' characters long!');
             
     }  
@@ -126,7 +126,7 @@ class Validator
     private function min($dataKey,$ruleSet,$data = array())
     {
         list($rule,$minValue) = explode(':',$ruleSet);
-        if(isset($data[$dataKey]) && strlen($data[$dataKey]) < $minValue)
+        if(isset($data[$dataKey]) && $data[$dataKey] != '' && strlen($data[$dataKey]) < $minValue)
             $this->appendError($dataKey,' is required to be more than '.$minValue.' characters long!');
             
     }  
@@ -142,9 +142,25 @@ class Validator
     private function unique($dataKey,$ruleSet,$data = array())
     {
         list($rule,$databaseTable) = explode(':',$ruleSet);
-        if(isset($data[$dataKey]))
+        if(isset($data[$dataKey]) && $data[$dataKey] != '')
             if(!is_null($this->app->database->where($dataKey. '="' .$data[$dataKey].'"')->fetch($databaseTable)))
                 $this->appendError($dataKey,' allready exists!');
+    } 
+
+    /**
+    * If data dont exists in database table, append error to error container
+    *
+    * @param string $dataKey
+    * @param string $ruleSet
+    * @param array $data
+    * @return void
+    */
+    private function exists($dataKey,$ruleSet,$data = array())
+    {
+        list($rule,$databaseTable) = explode(':',$ruleSet);
+        if(isset($data[$dataKey]) && $data[$dataKey] != '')
+            if(is_null($this->app->database->where($dataKey. '="' .$data[$dataKey].'"')->fetch($databaseTable)))
+                $this->appendError($dataKey,' does not exists!');
     } 
 
     /**
@@ -157,7 +173,7 @@ class Validator
     */
     private function email($dataKey,$rule,$data = array())
     {
-        if(isset($data[$dataKey]) && !filter_var($data[$dataKey],FILTER_VALIDATE_EMAIL))
+        if(isset($data[$dataKey]) && $data[$dataKey] != '' && !filter_var($data[$dataKey],FILTER_VALIDATE_EMAIL))
                 $this->appendError($dataKey,' is not valid email address!');
     }   
 
@@ -170,6 +186,6 @@ class Validator
     */
     private function appendError($dataKey,$message)
     {
-        $this->errors[$dataKey][] = $message;        
+        $this->errors[$dataKey][] = $dataKey.$message;        
     }
 }

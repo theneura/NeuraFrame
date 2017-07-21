@@ -40,6 +40,11 @@ class Application extends Container implements ApplicationInterface
         $this->share("config",$config);
     }
 
+    public function lateUpdate()
+    {
+        $this->router->lateUpdate();
+    }
+
     /**
     * Register the core aliases to its array
     *

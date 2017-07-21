@@ -53,7 +53,9 @@ class ControllerFactory
         if(!is_callable([$controllerObject,$route->method]))
             throw new MethodIsNotCallableException([$route->controller,$route->method]);
 
-        return call_user_func_array([$controllerObject,$route->method],array_merge(array($this->app->request),$request->getAll()));
+        $route->passedArguments = $request->getAll();
+        return call_user_func_array([$controllerObject,$route->method],array_merge(array($this->app->request),$route->passedArguments));
+        
     }
 
     /**

@@ -21,6 +21,19 @@ class ModelQueryBuilder
     }
 
     /**
+    * Get first record from query
+    *
+    * @param \NeuraFrame\ApplicationInterface $app 
+    * @param \NeuraFrame\Contracts\DatabaseTable $model;
+    * @return \NeuraFrame\Model
+    */
+    public static function first(ApplicationInterface $app,DatabaseTable $model)
+    {
+        $test = new ModelCollection($app->database->fetch($model->getTable()));
+        return $test->toModel(get_class($model));
+    }    
+
+    /**
     * Test if given key exists on table in database
     *
     * @param \NeuraFrame\ApplicationInterface $app 
@@ -89,6 +102,18 @@ class ModelQueryBuilder
     }
 
     /**
+    * Get first record from query
+    *
+    * @param \NeuraFrame\ApplicationInterface $app 
+    * @param \NeuraFrame\Contracts\DatabaseTable $model;
+    * @return \NeuraFrame\Model
+    */
+    public static function firstFromNonStatic(ApplicationInterface $app,DatabaseTable $model)
+    {
+        return ModelQueryBuilder::first($app,$model);
+    }
+
+    /**
     * Order by clause from non static function
     *
     * @param \NeuraFrame\ApplicationInterface $app 
@@ -141,7 +166,19 @@ class ModelQueryBuilder
     */
     public static function updateData(ApplicationInterface $app,DatabaseTable $model,$data)
     {
-        return $app->database->setData($data)->where("id = ".$data->id)->update($model->getTable());
+        return $app->database->setData($data)->where("id = ".$data["id"])->update($model->getTable());
+    }
+
+    /**
+    * Get last id from database query
+    *
+    * @param \NeuraFrame\ApplicationInterface $app 
+    * @param \NeuraFrame\Contracts\DatabaseTable $model
+    * @return \NeuraFrame\Database\DatabaseQueryInterface
+    */
+    public static function getLastId(ApplicationInterface $app,DatabaseTable $model)
+    {
+        return $app->database->lastId();
     }
 
     /**

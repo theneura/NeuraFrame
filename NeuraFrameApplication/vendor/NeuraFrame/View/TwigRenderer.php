@@ -60,7 +60,11 @@ class TwigRenderer
 
         $assetFolder = new \Twig_Function('asset',function($path = '')
         {
-            return $this->app->file->to('public\\'.$path);
+            $newPath = '';
+            $urlParts = substr_count($this->app->request->url(),'/');
+            for($i=0;$i<$urlParts - 1; $i++)
+                $newPath .= '../';
+            return $newPath.$path;
         });
 
         $this->twig->addFunction($route);

@@ -141,7 +141,17 @@ abstract class Model implements DatabaseTable
     */
     public function save()
     {
-        return self::saveNewData($this->getData());
+        return self::saveNewData($this->getData()? $this->getData():[]);
+    }
+
+    /**
+    * Get last id from query
+    *
+    * @return \NeuraFrame\Database\DatabaseQueryInterface
+    */
+    public function lastId()
+    {
+        return self::getLastId();
     }
 
     /**
@@ -149,9 +159,9 @@ abstract class Model implements DatabaseTable
     *
     * @return \NeuraFrame\Database\DatabaseQueryInterface
     */
-    public function delete()
+    public function delete($id)
     {
-        return self::deleteData($this->id);
+        return self::deleteData($id);
     }
 
     /**
@@ -167,7 +177,7 @@ abstract class Model implements DatabaseTable
     * * Call static limit function from nonStatic
     *
     */
-    public static function limit($limit)
+    public function limit($limit)
     {
         return self::limitFromNonStatic($limit);
     }
@@ -176,9 +186,19 @@ abstract class Model implements DatabaseTable
     * * Call static orderBy function from nonStatic
     *
     */
-    public static function orderBy($row,$orderBy ="ASC")
+    public function orderBy($row,$orderBy ="ASC")
     {
         return self::orderByFromNonStatic($row,$orderBy);
+    }
+
+    /**
+    * Get First record from query
+    *
+    * @return \NeuraFrame\Database\DatabaseQueryInterface
+    */
+    public function first()
+    {
+        return self::firstFromNonStatic();
     }
 
 

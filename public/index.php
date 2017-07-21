@@ -19,3 +19,4 @@ $app = require __DIR__. '/../NeuraFrameApplication/bootstrap/app.php';
 $responseContent = $app->router->getResponseContent();
 $response = new NeuraFrame\Http\Response($responseContent);
 $response->send();
+$app->lateUpdate();

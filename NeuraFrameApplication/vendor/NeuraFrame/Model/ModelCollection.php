@@ -29,8 +29,6 @@ class ModelCollection
     */
     public function toArray($modelClassName)
     {
-        if(sizeof($this->collection) == 1)
-            return $this->stdToModel($modelClassName,$this->collection[0]);
         if(sizeof($this->collection) == 0)
             return null;
             

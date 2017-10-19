@@ -2,8 +2,8 @@
 
 return [
     'host' => 'localhost',
-    'name' => 'databaseName',
-    'username' => 'databaseUsername',
+    'name' => 'dbName',
+    'username' => '',
     'password' => '',
     'charset' => 'utf8',
 ];

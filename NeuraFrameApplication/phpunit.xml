@@ -1,0 +1,38 @@
+<phpunit bootstrap="vendor/autoload.php">
+  <testsuites>
+    <testsuite name="money">
+      <directory>vendor/NeuraFrame/tests</directory>
+    </testsuite>
+  </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>vendor/NeuraFrame/src/FileSystem/File.php</directory>
+            <directory>vendor/NeuraFrame/src/Application.php</directory>
+            <directory>vendor/NeuraFrame/src/Containers/Application/Container.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/QueryBuilder.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlClauses/Joins.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlClauses/Limit.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlClauses/Offset.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlClauses/OrderBy.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlClauses/Selects.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlClauses/Table.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlClauses/Wheres.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlStatemants/InsertStatemant.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlStatemants/UpdateStatemant.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlStatemants/SelectStatemant.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlStatemants/DeleteStatemant.php</directory>
+            <directory>vendor/NeuraFrame/src/Database/SqlStatemants/StatemantContainer.php</directory>
+            <directory>vendor/NeuraFrame/src/Model/DatabaseMapper.php</directory>
+            <directory>vendor/NeuraFrame/src/Http/Request.php</directory>
+            <directory>vendor/NeuraFrame/src/Routing/RouteFactory.php</directory>
+            <directory>vendor/NeuraFrame/src/Routing/Router.php</directory>
+            <directory>vendor/NeuraFrame/src/Routing/Route.php</directory>
+            <directory>vendor/NeuraFrame/src/Controller/ControllerFactory.php</directory>
+            <directory>vendor/NeuraFrame/src/Middleware/Pipeline.php</directory>
+            <directory>vendor/NeuraFrame/src/Orm/DatabaseMapper.php</directory>
+            <directory>vendor/NeuraFrame/src/Orm/Mapper.php</directory>
+            <directory>vendor/NeuraFrame/src/Orm/MapperModelFactory.php</directory>
+        </whitelist>
+    </filter>
+</phpunit>

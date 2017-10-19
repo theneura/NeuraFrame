@@ -4,17 +4,21 @@ namespace App\Controllers;
 
 use NeuraFrame\Controller;
 use NeuraFrame\Http\Request;
-use NeuraFrame\Support\Helpers;
-use NeuraFrame\Database\QueryBuilder;
-
-use App\Mappers\ExperimentMapper;
-use App\Models\Experiment;
 
 class HomeController extends Controller
 {
+	/**
+	* Rendering HomeView.html page on request
+	*
+	* @param NeuraFrame\Http\Request $request
+	*/
     public function index(Request $request)
     {
-        
-        return $this->view->render('HomeView.html');
+        // Call template engine to render view
+        // First parameter -> name of view file 
+        // Second parameter -> array of data sending to view file
+        return $this->view->render('HomeView.html',[
+			'message'	=>	'Hello World'
+		]);
     }
 }

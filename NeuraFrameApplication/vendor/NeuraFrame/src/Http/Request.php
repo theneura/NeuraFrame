@@ -108,7 +108,7 @@ class Request
     }
 
     /**
-    * Get Value from _GET by the given key
+    * Get Value from _GET array by the given key
     *
     * @param string $key
     * @param mixed default
@@ -130,7 +130,7 @@ class Request
     }
 
     /**
-    * Get Value from _POST by the given key
+    * Get Value from _POST array by the given key
     *
     * @param string $key
     * @param mixed default

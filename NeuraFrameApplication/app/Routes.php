@@ -7,7 +7,7 @@ use NeuraFrame\Contracts\Application\ApplicationInterface;
 class Routes
 {
     /**
-    * Here we create every route we need for our application
+    * Here we create every route we need for our NeuraFrame application
     *
     * @param \NeuraFrame\Contracts\Application\ApplicationInterface $app
     */

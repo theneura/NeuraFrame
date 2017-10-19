@@ -32,7 +32,7 @@ Also we can define name for our route, by using method chaining:
 $app->router->addRoute('/','HomeController@index','GET')->name('getIndex');
 ```
 
-##Controllers
+## Controllers
 All controllers for our NeuraFrame application are defined at location:
 
 > ***NeuraFrameApplication/app/Controllers/***
@@ -102,7 +102,7 @@ public function post($key,$filter = true,$default = null);
 public function file($key,$default = null);
 ```
 
-##Models
+## Models
 All models for our NeuraFrame application are defined at location:
 
 > ***NeuraFrameApplication/app/Models/***
@@ -176,7 +176,7 @@ class HomeController extends Controller
 }
 ```
 
-##Middlewares
+## Middlewares
 Middlewares are functions called in between HTTP request, and executing Controller method. All middlewares are defined at location:
 
 > ***NeuraFrameApplication/app/Middlewares/***
@@ -208,11 +208,11 @@ class ErrorChekingMiddleware implements MiddlewareInterface
 }
 ```
 
-##Views
+## Views
 Currently NeuraFrame use Twig framework as Template Engine, for rendering pages. All pages are defined at location:
 > ***NeuraFrameApplication/app/Views/***
 
-##Connecting to database
+## Connecting to database
 Currently NeuraFrame supports only MySql adapter for connecting to database. To successfully connect to your database, you need to change configurations in file ***database.php***  at location:
 > ***NeuraFrameApplication/config/***
 
@@ -251,7 +251,7 @@ There are four statemant classes, for generating SQL queries. Those classes are:
  - DeleteStatemant - used for deleting data from database
  - UpdateStatemant - used for updating data inside database
 
-##ORM database mapper
+## ORM database mapper
 Another approach to get data from database, is by using database mappers. Database mappers classes which mapped data from database to models. First step in using database mappers, is to create mapper class, which extends base class ***Mapper*** as shown:
 ```php
 namespace App\Models\Mappers;
